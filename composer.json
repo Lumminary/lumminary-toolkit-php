@@ -1,0 +1,27 @@
+{
+    "name": "lumminary/partner-toolkit",
+    "description": "A CLI tool for common interactions with the Lumminary API",
+    "type": "project",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Lumminary/lumminary-api-client-php.git",
+            "reference": "master"
+        }
+    ],
+    "require": {
+        "nategood/commando": "^0.2.9",
+        "lumminary/api-client-php": "v1.0.0",
+        "monolog/monolog": "^1.23",
+        "swiftmailer/swiftmailer": "^6.0"
+    },
+    "authors": [
+        {
+            "name": "Liviu Anita",
+            "email": "liviu.anita@lumminary.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "AppToolkit\\": "src/" }
+    }
+}
