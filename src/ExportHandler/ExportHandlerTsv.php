@@ -29,30 +29,31 @@ class ExportHandlerTSV extends ExportHandlerBase
 
     public function updateAuthorizationProcessed()
     {
-        $this->_api->postProductAuthorization($this->_product["productUuid"], $this->_authorization["authorizationUuid"]);
+        // Do nothing for plain TSV export, to allow for time to process the authorized dataset
+        return;
     }
 
     protected function _authorizationMetadataPath()
     {
-        return $this->_path."/".$this->_optional["authorization-metadata-filename"];
+        return $this->_path."/".$this->_optional["authorization_metadata_filename"];
     }
 
     protected function _dnaDataPath()
     {
-        return $this->_path."/".$this->_optional["dna-data-filename"];
+        return $this->_path."/".$this->_optional["dna_data_filename"];
     }
 
     public static function get_config_optional_schema()
     {
         return array(
-            "dna-data-filename" => array(
+            "dna_data_filename" => array(
                 "validator" => function($dnaDataFilename){
                     ExportHandlerTSV::_validate_dna_data_filename($dnaDataFilename);
                 },
                 "required" => false,
                 "default" => "dna-data.tsv"
             ),
-            "authorization-metadata-filename" => array(
+            "authorization_metadata_filename" => array(
                 "validator" => function($authorizationMetadata){
                     ExportHandlerTSV::_validate_authorization_metadata($authorizationMetadata);
                 },

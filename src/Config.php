@@ -19,9 +19,23 @@ class Config
         return $configExplicit;
     }
 
+    private static function export_handler_to_camelcase($exportHandler)
+    {
+        // Convert snake_case handler name to CamelCase in order to load class
+        if(strlen($exportHandler) == 0)
+        {
+            throw new ToolkitException("Unexpected empty export hadler");
+        }
+        $exportHandlerCamelcase = $exportHandler;
+        $exportHandlerCamelcase = str_replace("_", "", ucwords($exportHandlerCamelcase, "_"));
+
+        return $exportHandlerCamelcase;
+    }
+
     public static function get_export_handler_class($exportHandler)
     {
-        $exportHandlerNamespaced = "AppToolkit\\ExportHandler\\".$exportHandler;
+        $exportHandlerCamelcase = Config::export_handler_to_camelcase($exportHandler);
+        $exportHandlerNamespaced = "AppToolkit\\ExportHandler\\".$exportHandlerCamelcase;
 
         return $exportHandlerNamespaced;
     }
@@ -186,7 +200,7 @@ class Config
             $exportHandlersAvailable[] = preg_replace("/\.php$/", '', $fileName);
         }
 
-        if(!is_file(__DIR__."/ExportHandler/".$exportHandler.".php"))
+        if(!is_file(__DIR__."/ExportHandler/".Config::export_handler_to_camelcase($exportHandler).".php"))
         {
             throw new ToolkitException("Invalid export handler ".$exportHandler." expected one of : ".implode(",", $exportHandlersAvailable));
         }

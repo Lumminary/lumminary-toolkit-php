@@ -3,6 +3,9 @@
     "product_uuid": <your-product-uuid>,
     "api_host": "https://api.lumminary.com/v1",
     "output_root": <base-directory-for-authorized-datasets>,
-    "export_handler": "ExportHandlerTSV",
-    "optional": {}
+    "export_handler": "export_handler_tsv",
+    "optional": {
+        "authorization-metadata-filename": "authorization-metadata.json",
+        "dna-data-filename": "dna-data.tsv"
+    }
 }

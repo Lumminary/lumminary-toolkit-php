@@ -117,8 +117,8 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
         if(!is_null($authorization["scopes"]["name"]))
         {
             $authorizationMetadata["customer_name"] = array(
-                "first_name" => $authorization["scopes"]["name"]["first_name"],
-                "last_name" => $authorization["scopes"]["name"]["last_name"]
+                "first_name" => $authorization["scopes"]["name"]["firstName"],
+                "last_name" => $authorization["scopes"]["name"]["lastName"]
             );
         }
         if(!is_null($authorization["scopes"]["address"]))
@@ -199,7 +199,7 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
         $tag = substr($dataEncrypted, -1 * LumminaryApi::MAC_LENGTH_BYTES);
         $ciphertext = substr($dataEncrypted, $ivLength, -1 * LumminaryApi::MAC_LENGTH_BYTES);
         
-        $dataDecrypted = openssl_decrypt($ciphertext, LumminaryApi::CWL_ENCRYPTION_METHOD, $partnerEncryptionKey, OPENSSL_RAW_DATA, $iv, $tag);
+        $dataDecrypted = openssl_decrypt($ciphertext, LumminaryApi::CWL_ENCRYPTION_METHOD, $encryptionKey, OPENSSL_RAW_DATA, $iv, $tag);
 
         if($dataDecrypted)
         {

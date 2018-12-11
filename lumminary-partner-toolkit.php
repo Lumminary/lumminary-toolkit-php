@@ -34,13 +34,26 @@ try
     {
         $logger->info("Processing authorization ".$authorization["authorizationUuid"]);
 
-        $exportHandler = new $exportHandlerClass($objConfig["output_root"], $authorization, $product, $apiClient, $objConfig["optional"]);
-        $exportHandler->pullAuthorizationData();
-        $exportHandler->updateAuthorizationProcessed();
+        try
+        {
+            $exportHandler = new $exportHandlerClass($objConfig["output_root"], $authorization, $product, $apiClient, $objConfig["optional"]);
+            $exportHandler->pullAuthorizationData();
+            $exportHandler->updateAuthorizationProcessed();
+        }
+        catch(\Throwable $pullAuthorizationDataError)
+        {
+            if($pullAuthorizationDataError->getCode() == 401)
+            {
+                $logger->error("Unable to pull data for authorization ".$authorization["authorizationUuid"].". UNAUTHORIZED");
+            }
+            else
+            {
+                $logger->error($pullAuthorizationDataError->getMessage());
+            }
+        }
     }
 }
 catch(AppToolkit\ToolkitException $parseException)
 {
-    print("ERROR: ".$parseException->getMessage()."\n");
-    exit;
+    $logger->error($parseException->getMessage());
 }
