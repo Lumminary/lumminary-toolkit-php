@@ -2,14 +2,12 @@
 require_once(__DIR__."/vendor/autoload.php");
 
 $logger = new \Monolog\Logger("lumminary-toolkit");
-$logger->pushHandler(new \Monolog\Handler\ErrorLogHandler());
-
+$logger->pushHandler(new \Monolog\Handler\StreamHandler('php://stdout'));
 
 $commandParams = new Commando\Command();
 $commandParams->option("config-path")
     ->require(true)
     ->describeAs("Path to the json config for the Lumminary toolkit");
-
 try
 {
     $configParser = new AppToolkit\Config($commandParams["config-path"]);
@@ -32,13 +30,21 @@ try
     $product = $apiClient->getProduct($objConfig["product_uuid"]);
     foreach($authorizationsPending as $authorization)
     {
-        $logger->info("Processing authorization ".$authorization["authorizationUuid"]);
-
         try
         {
             $exportHandler = new $exportHandlerClass($objConfig["output_root"], $authorization, $product, $apiClient, $objConfig["optional"]);
-            $exportHandler->pullAuthorizationData();
-            $exportHandler->updateAuthorizationProcessed();
+            if(!$exportHandler->shouldPullAuthorization())
+            {
+                $logger->info("Skipping authorization ".$authorization["authorizationUuid"]." because Authorization data directory already exists");
+                continue;
+            }
+            else
+            {
+                $logger->info("Processing authorization ".$authorization["authorizationUuid"]);
+
+                $exportHandler->pullAuthorizationData();
+                $exportHandler->updateAuthorizationProcessed();
+            }
         }
         catch(\Throwable $pullAuthorizationDataError)
         {
@@ -48,7 +54,7 @@ try
             }
             else
             {
-                $logger->error($pullAuthorizationDataError->getMessage());
+                $logger->error($pullAuthorizationDataError);
             }
         }
     }

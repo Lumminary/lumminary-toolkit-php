@@ -20,11 +20,23 @@ abstract class ExportHandlerBase
         $this->_path = $this->_outputRoot."/".$this->_authorization["authorizationUuid"];
     }
 
+    public function shouldPullAuthorization()
+    {
+        if(is_dir($this->_path))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public function pullAuthorizationData()
     {
         if(is_dir($this->_path) && count(scandir($this->_path)) != 2)
         {
-            throw new \AppToolkit\ToolkitException("Unable to fetch authorization ".$this->_authorization["authorizationUuid"].", directory ".$this->_path." already exists and is not empty");
+            throw new \AppToolkit\ToolkitException(
+                "Unable to fetch authorization ".$this->_authorization["authorizationUuid"].", directory ".$this->_path." already exists and is not empty"
+            );
         }
 
         if(!is_dir($this->_path))
