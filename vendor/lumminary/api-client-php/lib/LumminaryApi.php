@@ -40,7 +40,6 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
 
         parent::__construct(
             new \GuzzleHttp\Client(array(
-                "verify" => false,
                 "connect_timeout" => LumminaryApi::CONNECT_TIMEOUT_S,
                 "timeout" => LumminaryApi::REQUEST_TIMEOUT_S
             )),
@@ -57,9 +56,8 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
             $config->setHost($host);
         }
 
-        $authApiInstance = new Api\AuthApi(
+        $authApiInstance = new Api\LumminaryAPISpecApi(
             new \GuzzleHttp\Client(array(
-                "verify" => false,
                 "connect_timeout" => LumminaryApi::CONNECT_TIMEOUT_S,
                 "timeout" => LumminaryApi::REQUEST_TIMEOUT_S
             )),
@@ -260,7 +258,7 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
         preg_match_all("/NC_(0)+(.*)/", $chromosomeAccession, $matches);
         $accessionNumber = intval($matches[2][0]);
 
-        if($accessionNumber <= 23)
+        if($accessionNumber < 23)
         {
             return (string)$accessionNumber;
         }

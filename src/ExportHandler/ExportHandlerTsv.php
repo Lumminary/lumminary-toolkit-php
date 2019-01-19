@@ -35,12 +35,12 @@ class ExportHandlerTSV extends ExportHandlerBase
 
     protected function _authorizationMetadataPath()
     {
-        return $this->_path."/".$this->_optional["authorization_metadata_filename"];
+        return $this->_path."/".$this->_config["optional"]["authorization_metadata_filename"];
     }
 
     protected function _dnaDataPath()
     {
-        return $this->_path."/".$this->_optional["dna_data_filename"];
+        return $this->_path."/".$this->_config["optional"]["dna_data_filename"];
     }
 
     public static function get_config_optional_schema()

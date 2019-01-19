@@ -440,7 +440,7 @@ class Authorization implements ModelInterface, ArrayAccess
     /**
      * Sets state
      *
-     * @param string $state The authorization state. One of : ['authorization_state_pending_dataset', 'authorization_state_fulfillable', 'authorization_state_result_available']
+     * @param string $state The authorization state. One of : ['authorization_state_pending_dataset', 'authorization_state_fulfillable', 'authorization_state_result_available', 'authorization_state_not_fulfillable']
      *
      * @return $this
      */

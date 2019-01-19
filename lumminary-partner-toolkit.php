@@ -32,7 +32,7 @@ try
     {
         try
         {
-            $exportHandler = new $exportHandlerClass($objConfig["output_root"], $authorization, $product, $apiClient, $objConfig["optional"]);
+            $exportHandler = new $exportHandlerClass($objConfig, $authorization, $product, $apiClient);
             if(!$exportHandler->shouldPullAuthorization())
             {
                 $logger->info("Skipping authorization ".$authorization["authorizationUuid"]." because Authorization data directory already exists");

@@ -56,22 +56,26 @@ Please follow the [installation procedure](#installation--usage) and then run th
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$apiInstance = new Lumminary\Client\Api\AuthApi(
+// Configure API key authorization: Bearer
+$config = Lumminary\Client\Configuration::getDefaultConfiguration()->setApiKey('Authorization', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = Lumminary\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('Authorization', 'Bearer');
+
+$apiInstance = new Lumminary\Client\Api\LumminaryAPISpecApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
-$username = "username_example"; // string | The email for a Client, or the API for a partner product
-$password = "password_example"; // string | The passowrd for a Client, or the API key for a service
-$role = "role_example"; // string | The role for which authentication will be made. Value : role_product
-$_2FAToken = "_2FAToken_example"; // string | The One-time password provided by a 2FA product, if enabled
+$productId = "productId_example"; // string | The UUID of the product
+$seqNumStart = "seqNumStart_example"; // string | The first sequence number from which to fetch (the sequence number of the last processed authorization)
 $xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $result = $apiInstance->postJwtAuth($username, $password, $role, $_2FAToken, $xFields);
+    $result = $apiInstance->getAuthorizationsQueue($productId, $seqNumStart, $xFields);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AuthApi->postJwtAuth: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling LumminaryAPISpecApi->getAuthorizationsQueue: ', $e->getMessage(), PHP_EOL;
 }
 
 ?>
@@ -83,7 +87,6 @@ All URIs are relative to *https://api.lumminary.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthApi* | [**postJwtAuth**](docs/Api/AuthApi.md#postjwtauth) | **POST** /auth/jwt | General-purpose authentication
 *LumminaryAPISpecApi* | [**getAuthorizationsQueue**](docs/Api/LumminaryAPISpecApi.md#getauthorizationsqueue) | **GET** /products/{productId}/authorizations | 
 *LumminaryAPISpecApi* | [**getClientGene**](docs/Api/LumminaryAPISpecApi.md#getclientgene) | **GET** /clients/{clientId}/datasets/{datasetId}/genes/{geneSymbol} | Get gene by symbol
 *LumminaryAPISpecApi* | [**getClientSnp**](docs/Api/LumminaryAPISpecApi.md#getclientsnp) | **GET** /clients/{clientId}/datasets/{datasetId}/snps/{snpId} | Get SNP information
@@ -98,7 +101,8 @@ Class | Method | HTTP request | Description
 *LumminaryAPISpecApi* | [**postAuthorizationResultCredentials**](docs/Api/LumminaryAPISpecApi.md#postauthorizationresultcredentials) | **POST** /products/{productId}/authorizations/{authorizationId}/credentials | Provide a result for the authorization
 *LumminaryAPISpecApi* | [**postAuthorizationResultFile**](docs/Api/LumminaryAPISpecApi.md#postauthorizationresultfile) | **POST** /products/{productId}/authorizations/{authorizationId}/file | Provide a file result to the authorization, e
 *LumminaryAPISpecApi* | [**postClientSnpGroup**](docs/Api/LumminaryAPISpecApi.md#postclientsnpgroup) | **POST** /clients/{clientId}/datasets/{datasetId}/snps/ | Get a large group of SNPs
-*LumminaryAPISpecApi* | [**postProductAuthorization**](docs/Api/LumminaryAPISpecApi.md#postproductauthorization) | **POST** /products/{productId}/authorizations/{authorizationId} | Singnal that processing is complete, without uploading any result
+*LumminaryAPISpecApi* | [**postJwtAuth**](docs/Api/LumminaryAPISpecApi.md#postjwtauth) | **POST** /auth/jwt | General-purpose authentication
+*LumminaryAPISpecApi* | [**postProductAuthorization**](docs/Api/LumminaryAPISpecApi.md#postproductauthorization) | **POST** /products/{productId}/authorizations/{authorizationId} | Signal that processing is complete, without uploading any result
 
 
 ## Documentation For Models

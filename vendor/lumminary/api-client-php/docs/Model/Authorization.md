@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **isActive** | **bool** | If false, the the authorization is revoked and data access authorizations fail | 
 **authorizationUuid** | **string** | Identifier of the Authorization | 
 **productUuid** | **string** | Identifier of the Product to be authorized | 
-**state** | **string** | The authorization state. One of : [&#39;authorization_state_pending_dataset&#39;, &#39;authorization_state_fulfillable&#39;, &#39;authorization_state_result_available&#39;] | 
+**state** | **string** | The authorization state. One of : [&#39;authorization_state_pending_dataset&#39;, &#39;authorization_state_fulfillable&#39;, &#39;authorization_state_result_available&#39;, &#39;authorization_state_not_fulfillable&#39;] | 
 **createTimestamp** | **int** | Creation timestamp for the Authorization | 
 **reportCredentials** | [**\Lumminary\Client\Models\ReportCredentials[]**](ReportCredentials.md) |  | [optional] 
 **reportFiles** | [**\Lumminary\Client\Models\ReportFile[]**](ReportFile.md) |  | [optional] 

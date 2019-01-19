@@ -2,22 +2,20 @@
 
 abstract class ExportHandlerBase
 {
-    protected $_outputRoot = null;
+    protected $_config = null;
     protected $_authorization = null;
     protected $_product = null;
     protected $_api = null;
-    protected $_optional = null;
     protected $_path = null;
 
-    public function __construct($outputRoot, $authorization, $product, $api, $optional = null)
+    public function __construct($config, $authorization, $product, $api)
     {
-        $this->_outputRoot = $outputRoot;
+        $this->_config = $config;
         $this->_authorization = $authorization;
         $this->_product = $product;
         $this->_api = $api;
-        $this->_optional = $optional;
 
-        $this->_path = $this->_outputRoot."/".$this->_authorization["authorizationUuid"];
+        $this->_path = $this->_config["output_root"]."/".$this->_authorization["authorizationUuid"];
     }
 
     public function shouldPullAuthorization()
