@@ -2,17 +2,15 @@
 
 class ExportHandlerTSV extends ExportHandlerBase
 {
-    public function __construct($outputRoot, $authorization, $product, $api, $optional = null)
-    {
-        parent::__construct($outputRoot, $authorization, $product, $api, $optional);
-    }
-
     protected function _saveDataset()
     {
         $datasetPath = $this->_dnaDataPath();
 
         $dnaData = $this->_api->authorizationDNAData($this->_authorization["authorizationUuid"]);
-        file_put_contents($datasetPath, implode("\n", $dnaData));
+
+        $tmpDatasetPath = $datasetPath."_tmp";
+        file_put_contents($tmpDatasetPath, implode("\n", $dnaData));
+        rename($tmpDatasetPath, $datasetPath);
 
         return $datasetPath;
     }
@@ -40,7 +38,18 @@ class ExportHandlerTSV extends ExportHandlerBase
 
     protected function _dnaDataPath()
     {
-        return $this->_path."/".$this->_config["optional"]["dna_data_filename"];
+        $datasetFilename = null;
+        if(!is_null($this->_config["optional"]["dna_data_filename"]))
+        {
+            $datasetFilename = $this->_config["optional"]["dna_data_filename"];
+        }
+        else
+        {
+            $authorizationMetadata = $this->_api->authorizationMetadata($this->_authorization["authorizationUuid"]);
+            $datasetFilename = $authorizationMetadata["dataset"];
+        }
+
+        return $this->_path."/".$datasetFilename;
     }
 
     public static function get_config_optional_schema()
@@ -51,7 +60,7 @@ class ExportHandlerTSV extends ExportHandlerBase
                     ExportHandlerTSV::_validate_dna_data_filename($dnaDataFilename);
                 },
                 "required" => false,
-                "default" => "dna-data.tsv"
+                "default" => null
             ),
             "authorization_metadata_filename" => array(
                 "validator" => function($authorizationMetadata){

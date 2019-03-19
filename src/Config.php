@@ -142,6 +142,21 @@ class Config
                 },
                 "required" => True
             ),
+            "product_name" => array(
+                "validator" => function($productName){
+                    Config::_validate_product_name($productName);
+                },
+                "required" => True
+            ),
+            "operations" => array(
+                "validator" => function($arrOperations){
+                    Config::_validateOperations($arrOperations);
+                },
+                "required" => False,
+                "default" => [
+                    "pull_datasets"
+                ]
+            ),
             "optional" => $this->_clsCustomHandler::get_config_optional_schema()
         );
     }
@@ -203,6 +218,24 @@ class Config
         if(!is_file(__DIR__."/ExportHandler/".Config::export_handler_to_camelcase($exportHandler).".php"))
         {
             throw new ToolkitException("Invalid export handler ".$exportHandler." expected one of : ".implode(",", $exportHandlersAvailable));
+        }
+    }
+
+    private static function _validate_product_name($productName)
+    {
+        return;
+    }
+
+    private static function _validateOperations($arrOperations)
+    {
+        $arrExpectedOperations = ["pull_datasets", "push_reports"];
+
+        foreach($arrOperations as $operation)
+        {
+            if(!in_array($operation, $arrExpectedOperations))
+            {
+                throw new ToolkitException("Unexpected operation ".$operation.". Expected values: ".implode(", ", $arrExpectedOperations));
+            }
         }
     }
 }

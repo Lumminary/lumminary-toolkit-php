@@ -13,6 +13,7 @@
         "nategood/commando": "^0.2.9",
         "lumminary/api-client-php": "v1.0.2",
         "monolog/monolog": "^1.23",
+        "guzzlehttp/guzzle": "~6.0",
         "swiftmailer/swiftmailer": "^6.0"
     },
     "authors": [

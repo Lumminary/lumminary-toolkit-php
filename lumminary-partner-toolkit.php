@@ -1,5 +1,89 @@
 <?php
+
+use AppToolkit\ToolkitException;
 require_once(__DIR__."/vendor/autoload.php");
+
+function rrmdir($dirPath)
+{
+    if(!is_dir($dirPath))
+    {
+        throw new ToolkitException($dirPath." is not a directory");
+    }
+
+    foreach(scandir($dirPath) as $dirChild)
+    {
+        if(in_array($dirChild, [".", ".."]))
+        {
+            continue;
+        }
+
+
+        $childPath = $dirPath."/".$dirChild;
+
+        if(is_dir($childPath))
+        {
+            rrmdir($childPath);
+        }
+        elseif(is_file($childPath))
+        {
+            $bSuccess = unlink($childPath);
+            if(!$bSuccess)
+            {
+                throw new ToolkitException("Unable to remove file ".$childPath);
+            }
+        }
+        else
+        {
+            throw new ToolkitException("Unexpected file type for ".$childPath);
+        }
+    }
+
+    $bSuccess = rmdir($dirPath);
+    if(!$bSuccess)
+    {
+        throw new ToolkitException("Unable to remove directory ".$childPath);
+    }
+}
+
+function post_reports($authorizationUuid, $productUuid, $authorizationReportsBasePath, $logger, $apiClient)
+{
+    $reportsCreated = [];
+
+    if(is_dir($authorizationReportsBasePath))
+    {
+        $authorizationReportFiles = scandir($authorizationReportsBasePath);
+        $logger->info("Uploading ".(count($authorizationReportFiles) - 2)." report files for authorization...".$authorizationUuid);
+
+        foreach($authorizationReportFiles as $reportFilename)
+        {
+            if(in_array($reportFilename, [".", ".."]))
+            {
+                continue;
+            }
+
+            $reportPath = $authorizationReportsBasePath."/".$reportFilename;
+
+            $reportFile = new \SplFileObject($reportPath);
+            $reportsCreated[] = $apiClient->postAuthorizationResultFile($productUuid, $authorizationUuid, $reportFile, $reportFilename);
+        }
+
+        $logger->info("Done uploading reports for authorization ".$authorizationUuid.", cleaning up authorization directory");
+        try
+        {
+            rrmdir($authorizationBasePath);
+        }
+        catch(\Throwable $authorizationCleanupException)
+        {
+            throw new ToolkitException("Unable to cleanup authorization ".$authorizationUuid.". ".$authorizationCleanupException->getMessage());
+        }
+    }
+    else
+    {
+        $logger->info("No reports directory found for authorization ".$authorizationUuid);
+    }
+
+    return $reportsCreated;
+}
 
 $logger = new \Monolog\Logger("lumminary-toolkit");
 $logger->pushHandler(new \Monolog\Handler\StreamHandler('php://stdout'));
@@ -23,43 +107,70 @@ try
     $apiClient = new \Lumminary\Client\LumminaryApi($credentials);
     $logger->info("Authenticated to the Lumminary api");
 
-    $authorizationsPending = $apiClient->getAuthorizationsQueue($objConfig["product_uuid"]);
-    $logger->info("Fetched ".count($authorizationsPending)." authorizations");
 
     $exportHandlerClass = AppToolkit\Config::get_export_handler_class($objConfig["export_handler"]);
     $product = $apiClient->getProduct($objConfig["product_uuid"]);
-    foreach($authorizationsPending as $authorization)
-    {
-        try
-        {
-            $exportHandler = new $exportHandlerClass($objConfig, $authorization, $product, $apiClient);
-            if(!$exportHandler->shouldPullAuthorization())
-            {
-                $logger->info("Skipping authorization ".$authorization["authorizationUuid"]." because Authorization data directory already exists");
-                continue;
-            }
-            else
-            {
-                $logger->info("Processing authorization ".$authorization["authorizationUuid"]);
 
-                $exportHandler->pullAuthorizationData();
-                $exportHandler->updateAuthorizationProcessed();
+    if(in_array("push_reports", $objConfig["operations"]))
+    {
+        foreach(scandir($objConfig["output_root"]) as $authorizationUuid)
+        {
+            try
+            {
+                if(in_array($authorizationUuid, [".", ".."]))
+                {
+                    continue;
+                }
+
+                $authorizationBasePath = $objConfig["output_root"]."/".$authorizationUuid;
+                $authorizationReportsBasePath = $authorizationBasePath."/reports";
+
+                $arrReportsCreated = post_reports($authorizationUuid, $objConfig["product_uuid"], $authorizationReportsBasePath, $logger, $apiClient);
+            }
+            catch(\Throwable $uploadReportError)
+            {
+                $logger->error($uploadReportError);
             }
         }
-        catch(\Throwable $pullAuthorizationDataError)
+    }
+
+    if(in_array("pull_datasets", $objConfig["operations"]))
+    {
+        $authorizationsPending = $apiClient->getAuthorizationsQueue($objConfig["product_uuid"]);
+        $logger->info("Fetched ".count($authorizationsPending)." authorizations");
+        foreach($authorizationsPending as $authorization)
         {
-            if($pullAuthorizationDataError->getCode() == 401)
+            try
             {
-                $logger->error("Unable to pull data for authorization ".$authorization["authorizationUuid"].". UNAUTHORIZED");
+                $exportHandler = new $exportHandlerClass($objConfig, $authorization, $product, $apiClient);
+                if(!$exportHandler->shouldPullAuthorization())
+                {
+                    $logger->info("Skipping authorization ".$authorization["authorizationUuid"]." because Authorization data directory already exists");
+                    continue;
+                }
+                else
+                {
+                    $logger->info("Processing authorization ".$authorization["authorizationUuid"]);
+    
+                    $exportHandler->pullAuthorizationData();
+                    $exportHandler->updateAuthorizationProcessed();
+                }
             }
-            else
+            catch(\Throwable $pullAuthorizationDataError)
             {
-                $logger->error($pullAuthorizationDataError);
+                if($pullAuthorizationDataError->getCode() == 401)
+                {
+                    $logger->error("Unable to pull data for authorization ".$authorization["authorizationUuid"].". UNAUTHORIZED");
+                }
+                else
+                {
+                    $logger->error($pullAuthorizationDataError);
+                }
             }
         }
     }
 }
-catch(AppToolkit\ToolkitException $parseException)
+catch(ToolkitException $parseException)
 {
     $logger->error($parseException->getMessage());
 }
