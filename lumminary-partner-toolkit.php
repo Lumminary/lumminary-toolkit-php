@@ -45,11 +45,75 @@ function rrmdir($dirPath)
     }
 }
 
-function post_reports($authorizationUuid, $productUuid, $authorizationReportsBasePath, $logger, $apiClient)
+function post_reports($authorizationUuid, $productUuid, $authorizationReportsBasePath, $authorizationBasePath, $logger, $apiClient)
 {
-    $reportsCreated = [];
+    if(!is_dir($authorizationReportsBasePath))
+    {
+        throw new \Exception("No reports for authorization".$authorizationUuid." at ".$authorizationReportsBasePath);
+    }
 
-    if(is_dir($authorizationReportsBasePath))
+    $reportsCreated = [];
+    $resultFilePath = $authorizationReportsBasePath."/result.json";
+
+    if(is_file($resultFilePath))
+    {
+        // Upload report credentials/unfulfillable/dispatched
+        $objResult = json_decode(file_get_contents($resultFilePath), true);
+
+        if(array_key_exists("credentials", $objResult))
+        {
+            $logger->info("Uploading credentials for authorization ".$authorizationUuid);
+
+            if(array_key_exists("url", $objResult["credentials"]))
+            {
+                $reportsCreated[] = $apiClient->postAuthorizationResultCredentials(
+                    $productUuid,
+                    $authorizationUuid,
+                    $objResult["credentials"]["url"],
+                    $objResult["credentials"]["username"],
+                    $objResult["credentials"]["password"]
+                );
+            }
+            else
+            {
+                throw new \ToolkitException("Expected required 'url' attribute in the 'credentials' object at ".$resultFilePath);
+            }
+        }
+        elseif(array_key_exists("physical_product", $objResult))
+        {
+            $logger->info("Uploading order dispatched report for authorization ".$authorizationUuid);
+
+            if(array_key_exists("physical_product_completed", $objResult["physical_product"]) && $objResult["physical_product"]["physical_product_completed"])
+            {
+                $reportsCreated[] = $apiClient->postProductAuthorization(
+                    $productUuid,
+                    $authorizationUuid
+                );
+            }
+            else
+            {
+                throw new \ToolkitException("Expecting 'physical_product_completed' attribute under 'physical_product' in ".$resultFilePath);
+            }
+        }
+        elseif(array_key_exists("unfulfillable", $objResult))
+        {
+            $logger->info("Uploading error report for authorization ".$authorizationUuid);
+
+            if(array_key_exists("error", $objResult["unfulfillable"]))
+            {
+                $reportsCreated[] = $apiClient->postProductAuthorizationUnfulfillable($productUuid, $authorizationUuid);
+            }
+            else
+            {
+                throw new \ToolkitException("Expecting 'error' attribute under 'unfulfillable' in ".$resultFilePath);
+            }
+        }
+        else
+        {
+            throw new \ToolkitException("Unexpected reports object format ".json_encode($objResult)." in ".$resultFilePath);
+        }
+    }
+    else
     {
         $authorizationReportFiles = scandir($authorizationReportsBasePath);
         $logger->info("Uploading ".(count($authorizationReportFiles) - 2)." report files for authorization...".$authorizationUuid);
@@ -66,20 +130,16 @@ function post_reports($authorizationUuid, $productUuid, $authorizationReportsBas
             $reportFile = new \SplFileObject($reportPath);
             $reportsCreated[] = $apiClient->postAuthorizationResultFile($productUuid, $authorizationUuid, $reportFile, $reportFilename);
         }
-
-        $logger->info("Done uploading reports for authorization ".$authorizationUuid.", cleaning up authorization directory");
-        try
-        {
-            rrmdir($authorizationBasePath);
-        }
-        catch(\Throwable $authorizationCleanupException)
-        {
-            throw new ToolkitException("Unable to cleanup authorization ".$authorizationUuid.". ".$authorizationCleanupException->getMessage());
-        }
     }
-    else
+
+    $logger->info("Done uploading reports for authorization ".$authorizationUuid.", cleaning up authorization directory");
+    try
     {
-        $logger->info("No reports directory found for authorization ".$authorizationUuid);
+        rrmdir($authorizationBasePath);
+    }
+    catch(\Throwable $authorizationCleanupException)
+    {
+        throw new ToolkitException("Unable to cleanup authorization ".$authorizationUuid.". ".$authorizationCleanupException->getMessage());
     }
 
     return $reportsCreated;
@@ -125,11 +185,11 @@ try
                 $authorizationBasePath = $objConfig["output_root"]."/".$authorizationUuid;
                 $authorizationReportsBasePath = $authorizationBasePath."/reports";
 
-                $arrReportsCreated = post_reports($authorizationUuid, $objConfig["product_uuid"], $authorizationReportsBasePath, $logger, $apiClient);
+                $arrReportsCreated = post_reports($authorizationUuid, $objConfig["product_uuid"], $authorizationReportsBasePath, $authorizationBasePath, $logger, $apiClient);
             }
             catch(\Throwable $uploadReportError)
             {
-                $logger->error($uploadReportError);
+                $logger->error($uploadReportError->getMessage());
             }
         }
     }
@@ -164,7 +224,7 @@ try
                 }
                 else
                 {
-                    $logger->error($pullAuthorizationDataError);
+                    $logger->error($pullAuthorizationDataError->getMessage());
                 }
             }
         }

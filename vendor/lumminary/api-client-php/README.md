@@ -103,6 +103,7 @@ Class | Method | HTTP request | Description
 *LumminaryAPISpecApi* | [**postClientSnpGroup**](docs/Api/LumminaryAPISpecApi.md#postclientsnpgroup) | **POST** /clients/{clientId}/datasets/{datasetId}/snps/ | Get a large group of SNPs
 *LumminaryAPISpecApi* | [**postJwtAuth**](docs/Api/LumminaryAPISpecApi.md#postjwtauth) | **POST** /auth/jwt | General-purpose authentication
 *LumminaryAPISpecApi* | [**postProductAuthorization**](docs/Api/LumminaryAPISpecApi.md#postproductauthorization) | **POST** /products/{productId}/authorizations/{authorizationId} | Signal that processing is complete, without uploading any result
+*LumminaryAPISpecApi* | [**postProductAuthorizationUnfulfillable**](docs/Api/LumminaryAPISpecApi.md#postproductauthorizationunfulfillable) | **POST** /products/{productId}/authorizations/{authorizationId}/unfulfillable | Catch-all Authorization state, for authorizations that passed all verifications and should reach the partner Product, but cannot be fulfilled for various reasons
 
 
 ## Documentation For Models

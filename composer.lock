@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19ee1622872093541b572db90dfab0af",
+    "content-hash": "cee329671e8444968aa1cbceb5788934",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -353,11 +353,11 @@
         },
         {
             "name": "lumminary/api-client-php",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lumminary/lumminary-api-client-php.git",
-                "reference": "7403be26efeb954eb7f24487b8b17acf624fd288"
+                "reference": "7fc087f0a637b1171e4d598212cc3c5646312554"
             },
             "require": {
                 "ext-curl": "*",
@@ -398,7 +398,7 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2019-01-19T02:04:32+00:00"
+            "time": "2019-03-26T21:38:21+00:00"
         },
         {
             "name": "monolog/monolog",

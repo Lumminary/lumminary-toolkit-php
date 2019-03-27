@@ -225,21 +225,6 @@ class CustomerAddress implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['city'] === null) {
-            $invalidProperties[] = "'city' can't be null";
-        }
-        if ($this->container['address1'] === null) {
-            $invalidProperties[] = "'address1' can't be null";
-        }
-        if ($this->container['zipcode'] === null) {
-            $invalidProperties[] = "'zipcode' can't be null";
-        }
-        if ($this->container['phone'] === null) {
-            $invalidProperties[] = "'phone' can't be null";
-        }
-        if ($this->container['country'] === null) {
-            $invalidProperties[] = "'country' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -252,21 +237,6 @@ class CustomerAddress implements ModelInterface, ArrayAccess
     public function valid()
     {
 
-        if ($this->container['city'] === null) {
-            return false;
-        }
-        if ($this->container['address1'] === null) {
-            return false;
-        }
-        if ($this->container['zipcode'] === null) {
-            return false;
-        }
-        if ($this->container['phone'] === null) {
-            return false;
-        }
-        if ($this->container['country'] === null) {
-            return false;
-        }
         return true;
     }
 

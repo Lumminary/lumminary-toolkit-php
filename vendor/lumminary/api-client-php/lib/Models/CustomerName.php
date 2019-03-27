@@ -195,12 +195,6 @@ class CustomerName implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['firstName'] === null) {
-            $invalidProperties[] = "'firstName' can't be null";
-        }
-        if ($this->container['lastName'] === null) {
-            $invalidProperties[] = "'lastName' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -213,12 +207,6 @@ class CustomerName implements ModelInterface, ArrayAccess
     public function valid()
     {
 
-        if ($this->container['firstName'] === null) {
-            return false;
-        }
-        if ($this->container['lastName'] === null) {
-            return false;
-        }
         return true;
     }
 

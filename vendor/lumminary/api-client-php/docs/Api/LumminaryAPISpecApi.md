@@ -20,6 +20,7 @@ Method | HTTP request | Description
 [**postClientSnpGroup**](LumminaryAPISpecApi.md#postClientSnpGroup) | **POST** /clients/{clientId}/datasets/{datasetId}/snps/ | Get a large group of SNPs
 [**postJwtAuth**](LumminaryAPISpecApi.md#postJwtAuth) | **POST** /auth/jwt | General-purpose authentication
 [**postProductAuthorization**](LumminaryAPISpecApi.md#postProductAuthorization) | **POST** /products/{productId}/authorizations/{authorizationId} | Signal that processing is complete, without uploading any result
+[**postProductAuthorizationUnfulfillable**](LumminaryAPISpecApi.md#postProductAuthorizationUnfulfillable) | **POST** /products/{productId}/authorizations/{authorizationId}/unfulfillable | Catch-all Authorization state, for authorizations that passed all verifications and should reach the partner Product, but cannot be fulfilled for various reasons
 
 
 # **getAuthorizationsQueue**
@@ -666,7 +667,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postAuthorizationResultCredentials**
-> postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl)
+> \Lumminary\Client\Models\ReportCredentials postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields)
 
 Provide a result for the authorization
 
@@ -693,9 +694,11 @@ $authorizationId = "authorizationId_example"; // string | The UUID of the author
 $credentialsUsername = "credentialsUsername_example"; // string | Credentials for accessing the result. Includes password, username and url
 $credentialsPassword = "credentialsPassword_example"; // string | Credentials for accessing the result. Includes password, username and url
 $reportUrl = "reportUrl_example"; // string | Credentials for accessing the result. Includes password, username and url
+$xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $apiInstance->postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl);
+    $result = $apiInstance->postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postAuthorizationResultCredentials: ', $e->getMessage(), PHP_EOL;
 }
@@ -711,10 +714,11 @@ Name | Type | Description  | Notes
  **credentialsUsername** | **string**| Credentials for accessing the result. Includes password, username and url | [optional]
  **credentialsPassword** | **string**| Credentials for accessing the result. Includes password, username and url | [optional]
  **reportUrl** | **string**| Credentials for accessing the result. Includes password, username and url | [optional]
+ **xFields** | **string**| An optional fields mask | [optional]
 
 ### Return type
 
-void (empty response body)
+[**\Lumminary\Client\Models\ReportCredentials**](../Model/ReportCredentials.md)
 
 ### Authorization
 
@@ -728,7 +732,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postAuthorizationResultFile**
-> postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename)
+> \Lumminary\Client\Models\ReportFile postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename, $xFields)
 
 Provide a file result to the authorization, e
 
@@ -754,9 +758,11 @@ $productId = "productId_example"; // string | The UUID of the product
 $authorizationId = "authorizationId_example"; // string | The UUID of the authorization
 $fileReport = "/path/to/file.txt"; // \SplFileObject | A binary file (e.g. pdf) that contains the result of the authorization
 $originalFilename = "originalFilename_example"; // string | Optional original filename for the report. If not provided, the filename of uploaded file will be used
+$xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $apiInstance->postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename);
+    $result = $apiInstance->postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename, $xFields);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postAuthorizationResultFile: ', $e->getMessage(), PHP_EOL;
 }
@@ -771,10 +777,11 @@ Name | Type | Description  | Notes
  **authorizationId** | **string**| The UUID of the authorization |
  **fileReport** | **\SplFileObject**| A binary file (e.g. pdf) that contains the result of the authorization | [optional]
  **originalFilename** | **string**| Optional original filename for the report. If not provided, the filename of uploaded file will be used | [optional]
+ **xFields** | **string**| An optional fields mask | [optional]
 
 ### Return type
 
-void (empty response body)
+[**\Lumminary\Client\Models\ReportFile**](../Model/ReportFile.md)
 
 ### Authorization
 
@@ -849,11 +856,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postJwtAuth**
-> \Lumminary\Client\Models\JavascriptWebToken postJwtAuth($username, $password, $role, $_2FAToken, $xFields)
+> \Lumminary\Client\Models\JavascriptWebToken postJwtAuth($username, $password, $role, $xFields)
 
 General-purpose authentication
 
-If 2FA is enabled, the 2FA token is validated along with the username/password pair. Otherwise, the 2FA token, even if provided, is ignored.  ## Note: * A fresh and not previously used 2FA token should be passed, otherwise authentication will fail. * The JWT tokens returned should be passed to any resource that requires authentication, in the Authentication header, in the format `Bearer: your-token-here` * Only JWT authentication tokens are provided (no refresh tokens). These tokens are valid for 30 seconds from the moment they were issued
+## Note: * The JWT tokens returned should be passed to any resource that requires authentication, in the Authentication header, in the format `Bearer: your-token-here` * Only JWT authentication tokens are provided (no refresh tokens). These tokens are valid for 30 seconds from the moment they were issued
 
 ### Example
 ```php
@@ -868,11 +875,10 @@ $apiInstance = new Lumminary\Client\Api\LumminaryAPISpecApi(
 $username = "username_example"; // string | The email for a Client, or the API for a partner product
 $password = "password_example"; // string | The passowrd for a Client, or the API key for a service
 $role = "role_example"; // string | The role for which authentication will be made. Value : role_product
-$_2FAToken = "_2FAToken_example"; // string | The One-time password provided by a 2FA product, if enabled
 $xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $result = $apiInstance->postJwtAuth($username, $password, $role, $_2FAToken, $xFields);
+    $result = $apiInstance->postJwtAuth($username, $password, $role, $xFields);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postJwtAuth: ', $e->getMessage(), PHP_EOL;
@@ -887,7 +893,6 @@ Name | Type | Description  | Notes
  **username** | **string**| The email for a Client, or the API for a partner product |
  **password** | **string**| The passowrd for a Client, or the API key for a service |
  **role** | **string**| The role for which authentication will be made. Value : role_product |
- **_2FAToken** | **string**| The One-time password provided by a 2FA product, if enabled | [optional]
  **xFields** | **string**| An optional fields mask | [optional]
 
 ### Return type
@@ -947,6 +952,63 @@ Name | Type | Description  | Notes
 ### Return type
 
 void (empty response body)
+
+### Authorization
+
+[Bearer](../../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **postProductAuthorizationUnfulfillable**
+> \Lumminary\Client\Models\Authorization postProductAuthorizationUnfulfillable($productId, $authorizationId, $xFields)
+
+Catch-all Authorization state, for authorizations that passed all verifications and should reach the partner Product, but cannot be fulfilled for various reasons
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure API key authorization: Bearer
+$config = Lumminary\Client\Configuration::getDefaultConfiguration()->setApiKey('Authorization', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = Lumminary\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('Authorization', 'Bearer');
+
+$apiInstance = new Lumminary\Client\Api\LumminaryAPISpecApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$productId = "productId_example"; // string | The UUID of the product
+$authorizationId = "authorizationId_example"; // string | The UUID of the authorization
+$xFields = "xFields_example"; // string | An optional fields mask
+
+try {
+    $result = $apiInstance->postProductAuthorizationUnfulfillable($productId, $authorizationId, $xFields);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling LumminaryAPISpecApi->postProductAuthorizationUnfulfillable: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **productId** | **string**| The UUID of the product |
+ **authorizationId** | **string**| The UUID of the authorization |
+ **xFields** | **string**| An optional fields mask | [optional]
+
+### Return type
+
+[**\Lumminary\Client\Models\Authorization**](../Model/Authorization.md)
 
 ### Authorization
 
