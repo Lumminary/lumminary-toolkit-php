@@ -965,7 +965,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postProductAuthorizationUnfulfillable**
-> \Lumminary\Client\Models\Authorization postProductAuthorizationUnfulfillable($productId, $authorizationId, $xFields)
+> postProductAuthorizationUnfulfillable($productId, $authorizationId)
 
 Catch-all Authorization state, for authorizations that passed all verifications and should reach the partner Product, but cannot be fulfilled for various reasons
 
@@ -987,11 +987,9 @@ $apiInstance = new Lumminary\Client\Api\LumminaryAPISpecApi(
 );
 $productId = "productId_example"; // string | The UUID of the product
 $authorizationId = "authorizationId_example"; // string | The UUID of the authorization
-$xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $result = $apiInstance->postProductAuthorizationUnfulfillable($productId, $authorizationId, $xFields);
-    print_r($result);
+    $apiInstance->postProductAuthorizationUnfulfillable($productId, $authorizationId);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postProductAuthorizationUnfulfillable: ', $e->getMessage(), PHP_EOL;
 }
@@ -1004,11 +1002,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **productId** | **string**| The UUID of the product |
  **authorizationId** | **string**| The UUID of the authorization |
- **xFields** | **string**| An optional fields mask | [optional]
 
 ### Return type
 
-[**\Lumminary\Client\Models\Authorization**](../Model/Authorization.md)
+void (empty response body)
 
 ### Authorization
 

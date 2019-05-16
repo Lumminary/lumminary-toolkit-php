@@ -4813,16 +4813,14 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
-     * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \Lumminary\Client\Models\Authorization
+     * @return void
      */
-    public function postProductAuthorizationUnfulfillable($productId, $authorizationId, $xFields = null)
+    public function postProductAuthorizationUnfulfillable($productId, $authorizationId)
     {
-        list($response) = $this->postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId, $xFields);
-        return $response;
+        $this->postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId);
     }
 
     /**
@@ -4832,16 +4830,15 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
-     * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \Lumminary\Client\Models\Authorization, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId, $xFields = null)
+    public function postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId)
     {
-        $returnType = '\Lumminary\Client\Models\Authorization';
-        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId, $xFields);
+        $returnType = '';
+        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4871,32 +4868,10 @@ class LumminaryAPISpecApi
                 );
             }
 
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
+            return [null, $statusCode, $response->getHeaders()];
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\Lumminary\Client\Models\Authorization',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    break;
             }
             throw $e;
         }
@@ -4909,14 +4884,13 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
-     * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postProductAuthorizationUnfulfillableAsync($productId, $authorizationId, $xFields = null)
+    public function postProductAuthorizationUnfulfillableAsync($productId, $authorizationId)
     {
-        return $this->postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId, $xFields)
+        return $this->postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4931,35 +4905,20 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
-     * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId, $xFields = null)
+    public function postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId)
     {
-        $returnType = '\Lumminary\Client\Models\Authorization';
-        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId, $xFields);
+        $returnType = '';
+        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
-                    if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
-                    } else {
-                        $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, $returnType, []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -4983,12 +4942,11 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
-     * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function postProductAuthorizationUnfulfillableRequest($productId, $authorizationId, $xFields = null)
+    protected function postProductAuthorizationUnfulfillableRequest($productId, $authorizationId)
     {
         // verify the required parameter 'productId' is set
         if ($productId === null) {
@@ -5010,10 +4968,6 @@ class LumminaryAPISpecApi
         $httpBody = '';
         $multipart = false;
 
-        // header params
-        if ($xFields !== null) {
-            $headerParams['X-Fields'] = ObjectSerializer::toHeaderValue($xFields);
-        }
 
         // path params
         if ($productId !== null) {

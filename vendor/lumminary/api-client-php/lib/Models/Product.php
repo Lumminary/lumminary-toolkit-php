@@ -63,7 +63,7 @@ class Product implements ModelInterface, ArrayAccess
         'email' => 'string',
         'redirectUri' => 'string',
         'snpsMinRequiredAny' => 'bool',
-        'snpsMinRequired' => 'string[]',
+        'snpsMinRequired' => '\Lumminary\Client\Models\SnpsMinRequired',
         'productUuid' => 'string'
     ];
 
@@ -430,7 +430,7 @@ class Product implements ModelInterface, ArrayAccess
     /**
      * Gets snpsMinRequired
      *
-     * @return string[]
+     * @return \Lumminary\Client\Models\SnpsMinRequired
      */
     public function getSnpsMinRequired()
     {
@@ -440,7 +440,7 @@ class Product implements ModelInterface, ArrayAccess
     /**
      * Sets snpsMinRequired
      *
-     * @param string[] $snpsMinRequired A list of the minimum SNPs required for an Product to be compatible with a Client
+     * @param \Lumminary\Client\Models\SnpsMinRequired $snpsMinRequired Minimum required snps for Dataset-Product compatibility
      *
      * @return $this
      */

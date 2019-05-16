@@ -125,6 +125,7 @@ Class | Method | HTTP request | Description
  - [ReferenceSequence](docs/Model/ReferenceSequence.md)
  - [ReportCredentials](docs/Model/ReportCredentials.md)
  - [ReportFile](docs/Model/ReportFile.md)
+ - [SnpsMinRequired](docs/Model/SnpsMinRequired.md)
 
 
 ## Documentation For Authorization

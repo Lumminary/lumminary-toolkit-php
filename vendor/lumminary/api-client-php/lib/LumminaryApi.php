@@ -18,7 +18,7 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
      */
     protected $_credentials;
 
-    public function __construct($credentials)
+    public function __construct($credentials, $connectTimeoutSeconds = LumminaryApi::CONNECT_TIMEOUT_S, $requestTimeoutSeconds = LumminaryApi::REQUEST_TIMEOUT_S)
     {
         $this->_credentials = $credentials;
 
@@ -40,8 +40,8 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
 
         parent::__construct(
             new \GuzzleHttp\Client(array(
-                "connect_timeout" => LumminaryApi::CONNECT_TIMEOUT_S,
-                "timeout" => LumminaryApi::REQUEST_TIMEOUT_S
+                "connect_timeout" => $connectTimeoutSeconds,
+                "timeout" => $requestTimeoutSeconds
             )),
             $config
         );
