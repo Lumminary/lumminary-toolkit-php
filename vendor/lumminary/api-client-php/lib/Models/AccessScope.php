@@ -57,11 +57,12 @@ class AccessScope implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'login' => 'string',
-        'address' => '\Lumminary\Client\Models\CustomerAddress',
-        'email' => 'string',
         'name' => '\Lumminary\Client\Models\CustomerName',
-        'dataset' => 'string'
+        'sex' => 'string',
+        'address' => '\Lumminary\Client\Models\CustomerAddress',
+        'login' => 'string',
+        'dataset' => 'string',
+        'email' => 'string'
     ];
 
     /**
@@ -70,11 +71,12 @@ class AccessScope implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'login' => null,
-        'address' => null,
-        'email' => null,
         'name' => null,
-        'dataset' => null
+        'sex' => null,
+        'address' => null,
+        'login' => null,
+        'dataset' => null,
+        'email' => null
     ];
 
     /**
@@ -104,11 +106,12 @@ class AccessScope implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'login' => 'login',
-        'address' => 'address',
-        'email' => 'email',
         'name' => 'name',
-        'dataset' => 'dataset'
+        'sex' => 'sex',
+        'address' => 'address',
+        'login' => 'login',
+        'dataset' => 'dataset',
+        'email' => 'email'
     ];
 
     /**
@@ -117,11 +120,12 @@ class AccessScope implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'login' => 'setLogin',
-        'address' => 'setAddress',
-        'email' => 'setEmail',
         'name' => 'setName',
-        'dataset' => 'setDataset'
+        'sex' => 'setSex',
+        'address' => 'setAddress',
+        'login' => 'setLogin',
+        'dataset' => 'setDataset',
+        'email' => 'setEmail'
     ];
 
     /**
@@ -130,11 +134,12 @@ class AccessScope implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'login' => 'getLogin',
-        'address' => 'getAddress',
-        'email' => 'getEmail',
         'name' => 'getName',
-        'dataset' => 'getDataset'
+        'sex' => 'getSex',
+        'address' => 'getAddress',
+        'login' => 'getLogin',
+        'dataset' => 'getDataset',
+        'email' => 'getEmail'
     ];
 
     /**
@@ -197,11 +202,12 @@ class AccessScope implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['login'] = isset($data['login']) ? $data['login'] : null;
-        $this->container['address'] = isset($data['address']) ? $data['address'] : null;
-        $this->container['email'] = isset($data['email']) ? $data['email'] : null;
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['sex'] = isset($data['sex']) ? $data['sex'] : null;
+        $this->container['address'] = isset($data['address']) ? $data['address'] : null;
+        $this->container['login'] = isset($data['login']) ? $data['login'] : null;
         $this->container['dataset'] = isset($data['dataset']) ? $data['dataset'] : null;
+        $this->container['email'] = isset($data['email']) ? $data['email'] : null;
     }
 
     /**
@@ -230,25 +236,49 @@ class AccessScope implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets login
+     * Gets name
      *
-     * @return string
+     * @return \Lumminary\Client\Models\CustomerName
      */
-    public function getLogin()
+    public function getName()
     {
-        return $this->container['login'];
+        return $this->container['name'];
     }
 
     /**
-     * Sets login
+     * Sets name
      *
-     * @param string $login Access to no customer information, just the customer UUID
+     * @param \Lumminary\Client\Models\CustomerName $name Access to customer name
      *
      * @return $this
      */
-    public function setLogin($login)
+    public function setName($name)
     {
-        $this->container['login'] = $login;
+        $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets sex
+     *
+     * @return string
+     */
+    public function getSex()
+    {
+        return $this->container['sex'];
+    }
+
+    /**
+     * Sets sex
+     *
+     * @param string $sex The sex of the customer. One of : ['M', 'F', 'N']
+     *
+     * @return $this
+     */
+    public function setSex($sex)
+    {
+        $this->container['sex'] = $sex;
 
         return $this;
     }
@@ -278,49 +308,25 @@ class AccessScope implements ModelInterface, ArrayAccess
     }
 
     /**
-     * Gets email
+     * Gets login
      *
      * @return string
      */
-    public function getEmail()
+    public function getLogin()
     {
-        return $this->container['email'];
+        return $this->container['login'];
     }
 
     /**
-     * Sets email
+     * Sets login
      *
-     * @param string $email Access to customer email
+     * @param string $login Access to no customer information, just the customer UUID
      *
      * @return $this
      */
-    public function setEmail($email)
+    public function setLogin($login)
     {
-        $this->container['email'] = $email;
-
-        return $this;
-    }
-
-    /**
-     * Gets name
-     *
-     * @return \Lumminary\Client\Models\CustomerName
-     */
-    public function getName()
-    {
-        return $this->container['name'];
-    }
-
-    /**
-     * Sets name
-     *
-     * @param \Lumminary\Client\Models\CustomerName $name Access to customer name
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->container['name'] = $name;
+        $this->container['login'] = $login;
 
         return $this;
     }
@@ -345,6 +351,30 @@ class AccessScope implements ModelInterface, ArrayAccess
     public function setDataset($dataset)
     {
         $this->container['dataset'] = $dataset;
+
+        return $this;
+    }
+
+    /**
+     * Gets email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->container['email'];
+    }
+
+    /**
+     * Sets email
+     *
+     * @param string $email Access to customer email
+     *
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->container['email'] = $email;
 
         return $this;
     }

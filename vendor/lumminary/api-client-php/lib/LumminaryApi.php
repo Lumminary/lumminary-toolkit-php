@@ -130,6 +130,10 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
                 "state" => $authorization["scopes"]["address"]["state"],
             );
         }
+        if(!is_null($authorization["scopes"]["sex"]))
+        {
+            $authorizationMetadata["customer_sex"] = $authorization["scopes"]["sex"];
+        }
 
         return $authorizationMetadata;
     }
