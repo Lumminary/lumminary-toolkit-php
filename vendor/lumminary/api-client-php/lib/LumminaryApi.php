@@ -23,19 +23,19 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
         $this->_credentials = $credentials;
 
         $strAuthenticationJWT = $this->_apiClientAuthenticate(
-            $this->_credentials->getLogin(),
+            $this->_credentials->getProductUuid(),
             $this->_credentials->getPassword(),
             $this->_credentials->getRole(),
-            $this->_credentials->getHost()
+            $this->_credentials->getApiHost()
         );
 
         $config = new Configuration();
         $config->setApiKey("Authorization", $strAuthenticationJWT);
         $config->setApiKeyPrefix("Authorization", "Bearer");
 
-        if(!is_null($this->_credentials->getHost()))
+        if(!is_null($this->_credentials->getApiHost()))
         {
-            $config->setHost($this->_credentials->getHost());
+            $config->setHost($this->_credentials->getApiHost());
         }
 
         parent::__construct(
@@ -95,7 +95,7 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
 
     public function authorizationMetadata($authorizationUuid)
     {
-        $authorization = $this->getProductAuthorization($this->_credentials->getLogin(), $authorizationUuid);
+        $authorization = $this->getProductAuthorization($this->_credentials->getProductUuid(), $authorizationUuid);
 
         $authorizationMetadata = array(
             "customer" => $authorization["clientUuid"],
@@ -140,7 +140,7 @@ class LumminaryApi extends Api\LumminaryAPISpecApi
 
     public function authorizationDnaData($authorizationUuid)
     {
-        $authorization = $this->getProductAuthorization($this->_credentials->getLogin(), $authorizationUuid);
+        $authorization = $this->getProductAuthorization($this->_credentials->getProductUuid(), $authorizationUuid);
 
         if(!is_null($authorization["scopes"]["dataset"]))
         {

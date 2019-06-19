@@ -5,7 +5,6 @@ use Lumminary\Client\ApiException;
 
 class Credentials
 {
-    const API_ENDPOINT = "api.lumminary.com";
     const ROLE_PRODUCT = "role_product";
 
     /**
@@ -13,7 +12,7 @@ class Credentials
      *
      * @var string
      */
-    protected $login;
+    protected $productUuid;
 
     /**
      * The Client password / Product API key to authenticate with
@@ -35,14 +34,14 @@ class Credentials
      *
      * @var string
      */
-    protected $host;
+    protected $apiHost;
     
-    function __construct($login = null, $password = null, $host = Credentials::API_ENDPOINT, $role = Credentials::ROLE_PRODUCT)
+    function __construct($productUuid = null, $password = null, $apiHost = null, $role = 'role_product')
     {
-        $this->login = $login;
+        $this->productUuid = $productUuid;
         $this->password = $password;
         $this->role = $role;
-        $this->host = $host;
+        $this->apiHost = $apiHost;
     }
 
     /**
@@ -67,15 +66,15 @@ class Credentials
             throw new ApiException("Unable to decode JSON at ".$credentialsFilePath);
         }
 
-        if(array_key_exists('login', $config))
+        if(array_key_exists('product_uuid', $config))
         {
-            $this->login = $config['login'];
+            $this->productUuid = $config['product_uuid'];
         }
         else
         {
-            if(is_none($this->login))
+            if(is_none($this->productUuid))
             {
-                throw new ApiException("Missing 'login' key from credentials at ".$credentialsFilePath);
+                throw new ApiException("Missing 'product_uuid' key from credentials at ".$credentialsFilePath);
             }
         }
         if(array_key_exists('api_key', $config))
@@ -100,23 +99,23 @@ class Credentials
                 throw new ApiException("Missing 'role' key from credentials at ".$credentialsFilePath);
             }
         }
-        if(array_key_exists('host', $config))
+        if(array_key_exists('api_host', $config))
         {
-            $this->host = $config['host'];
+            $this->apiHost = $config['api_host'];
         }
         else
         {
-            if(is_none($this->host))
+            if(is_none($this->apiHost))
             {
-                throw new ApiException("Missing 'host' key from credentials at ".$credentialsFilePath);
+                throw new ApiException("Missing 'api_host' key from credentials at ".$credentialsFilePath);
             }
         }
     }
 
 
-    public function getLogin()
+    public function getProductUuid()
     {
-        return $this->login;
+        return $this->productUuid;
     }
 
     public function getPassword()
@@ -129,8 +128,8 @@ class Credentials
         return $this->role;
     }
 
-    public function getHost()
+    public function getApiHost()
     {
-        return $this->host;
+        return $this->apiHost;
     }
 }

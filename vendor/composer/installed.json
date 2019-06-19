@@ -358,12 +358,12 @@
     },
     {
         "name": "lumminary/api-client-php",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "v1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Lumminary/lumminary-api-client-php.git",
-            "reference": "f0a05450619232706103d527a9e58fee0fec7fd0"
+            "reference": "5388e299cbb1bc6385192b685951f19ea903bb3b"
         },
         "require": {
             "ext-curl": "*",
@@ -377,7 +377,7 @@
             "phpunit/phpunit": "^4.8",
             "squizlabs/php_codesniffer": "~2.6"
         },
-        "time": "2019-06-13T18:16:11+00:00",
+        "time": "2019-06-19T15:43:10+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
