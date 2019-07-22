@@ -4,6 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **snpsAuthorizedAny** | **bool** | A boolean value specifying if SNP set is not strict | 
+**productPartners** | **string[]** | A list of Partner UUIDs that manage the product | 
 **snpsAuthorized** | **string[]** | A superset of snps_min_required, containing all SNPs to which an Product has access (includes optional SNPs) | 
 **authorizedScopes** | **string[]** | A list of scopes that the product can require from clients | 
 **email** | **string** | The contact email for the product | [optional] 

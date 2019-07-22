@@ -667,7 +667,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postAuthorizationResultCredentials**
-> \Lumminary\Client\Models\ReportCredentials postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields)
+> \Lumminary\Client\Models\ReportCredentials postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $notifyClient, $xFields)
 
 Provide a result for the authorization
 
@@ -694,10 +694,11 @@ $authorizationId = "authorizationId_example"; // string | The UUID of the author
 $credentialsUsername = "credentialsUsername_example"; // string | Credentials for accessing the result. Includes password, username and url
 $credentialsPassword = "credentialsPassword_example"; // string | Credentials for accessing the result. Includes password, username and url
 $reportUrl = "reportUrl_example"; // string | Credentials for accessing the result. Includes password, username and url
+$notifyClient = true; // bool | Optional flag to trigger a mail being sent to the client, to notify them of the report being available
 $xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $result = $apiInstance->postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields);
+    $result = $apiInstance->postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $notifyClient, $xFields);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postAuthorizationResultCredentials: ', $e->getMessage(), PHP_EOL;
@@ -714,6 +715,7 @@ Name | Type | Description  | Notes
  **credentialsUsername** | **string**| Credentials for accessing the result. Includes password, username and url | [optional]
  **credentialsPassword** | **string**| Credentials for accessing the result. Includes password, username and url | [optional]
  **reportUrl** | **string**| Credentials for accessing the result. Includes password, username and url | [optional]
+ **notifyClient** | **bool**| Optional flag to trigger a mail being sent to the client, to notify them of the report being available | [optional] [default to true]
  **xFields** | **string**| An optional fields mask | [optional]
 
 ### Return type
@@ -732,7 +734,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postAuthorizationResultFile**
-> \Lumminary\Client\Models\ReportFile postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename, $xFields)
+> \Lumminary\Client\Models\ReportFile postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename, $notifyClient, $xFields)
 
 Provide a file result to the authorization, e
 
@@ -758,10 +760,11 @@ $productId = "productId_example"; // string | The UUID of the product
 $authorizationId = "authorizationId_example"; // string | The UUID of the authorization
 $fileReport = "/path/to/file.txt"; // \SplFileObject | A binary file (e.g. pdf) that contains the result of the authorization
 $originalFilename = "originalFilename_example"; // string | Optional original filename for the report. If not provided, the filename of uploaded file will be used
+$notifyClient = true; // bool | Optional flag to trigger a mail being sent to the client, to notify them of the report being available
 $xFields = "xFields_example"; // string | An optional fields mask
 
 try {
-    $result = $apiInstance->postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename, $xFields);
+    $result = $apiInstance->postAuthorizationResultFile($productId, $authorizationId, $fileReport, $originalFilename, $notifyClient, $xFields);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postAuthorizationResultFile: ', $e->getMessage(), PHP_EOL;
@@ -777,6 +780,7 @@ Name | Type | Description  | Notes
  **authorizationId** | **string**| The UUID of the authorization |
  **fileReport** | **\SplFileObject**| A binary file (e.g. pdf) that contains the result of the authorization | [optional]
  **originalFilename** | **string**| Optional original filename for the report. If not provided, the filename of uploaded file will be used | [optional]
+ **notifyClient** | **bool**| Optional flag to trigger a mail being sent to the client, to notify them of the report being available | [optional] [default to true]
  **xFields** | **string**| An optional fields mask | [optional]
 
 ### Return type
@@ -911,7 +915,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postProductAuthorization**
-> postProductAuthorization($productId, $authorizationId)
+> postProductAuthorization($productId, $authorizationId, $notifyClient)
 
 Signal that processing is complete, without uploading any result
 
@@ -933,9 +937,10 @@ $apiInstance = new Lumminary\Client\Api\LumminaryAPISpecApi(
 );
 $productId = "productId_example"; // string | The UUID of the product
 $authorizationId = "authorizationId_example"; // string | The UUID of the authorization
+$notifyClient = true; // bool | Optional flag to trigger a mail being sent to the client, to notify them of the report being available
 
 try {
-    $apiInstance->postProductAuthorization($productId, $authorizationId);
+    $apiInstance->postProductAuthorization($productId, $authorizationId, $notifyClient);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postProductAuthorization: ', $e->getMessage(), PHP_EOL;
 }
@@ -948,6 +953,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **productId** | **string**| The UUID of the product |
  **authorizationId** | **string**| The UUID of the authorization |
+ **notifyClient** | **bool**| Optional flag to trigger a mail being sent to the client, to notify them of the report being available | [optional] [default to true]
 
 ### Return type
 
@@ -965,7 +971,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **postProductAuthorizationUnfulfillable**
-> postProductAuthorizationUnfulfillable($productId, $authorizationId)
+> postProductAuthorizationUnfulfillable($productId, $authorizationId, $notifyClient)
 
 Catch-all Authorization state, for authorizations that passed all verifications and should reach the partner Product, but cannot be fulfilled for various reasons
 
@@ -987,9 +993,10 @@ $apiInstance = new Lumminary\Client\Api\LumminaryAPISpecApi(
 );
 $productId = "productId_example"; // string | The UUID of the product
 $authorizationId = "authorizationId_example"; // string | The UUID of the authorization
+$notifyClient = true; // bool | Optional flag to trigger a mail being sent to the client, to notify them of the report being available
 
 try {
-    $apiInstance->postProductAuthorizationUnfulfillable($productId, $authorizationId);
+    $apiInstance->postProductAuthorizationUnfulfillable($productId, $authorizationId, $notifyClient);
 } catch (Exception $e) {
     echo 'Exception when calling LumminaryAPISpecApi->postProductAuthorizationUnfulfillable: ', $e->getMessage(), PHP_EOL;
 }
@@ -1002,6 +1009,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **productId** | **string**| The UUID of the product |
  **authorizationId** | **string**| The UUID of the authorization |
+ **notifyClient** | **bool**| Optional flag to trigger a mail being sent to the client, to notify them of the report being available | [optional] [default to true]
 
 ### Return type
 

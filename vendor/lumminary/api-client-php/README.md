@@ -114,7 +114,6 @@ Class | Method | HTTP request | Description
  - [ClientSNP](docs/Model/ClientSNP.md)
  - [CustomerAddress](docs/Model/CustomerAddress.md)
  - [CustomerName](docs/Model/CustomerName.md)
- - [FileLocation](docs/Model/FileLocation.md)
  - [JavascriptWebToken](docs/Model/JavascriptWebToken.md)
  - [MolecularLocation](docs/Model/MolecularLocation.md)
  - [Product](docs/Model/Product.md)

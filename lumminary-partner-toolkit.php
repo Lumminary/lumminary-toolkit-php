@@ -49,7 +49,7 @@ function post_reports($authorizationUuid, $productUuid, $authorizationReportsBas
 {
     if(!is_dir($authorizationReportsBasePath))
     {
-        throw new \Exception("No reports for authorization".$authorizationUuid." at ".$authorizationReportsBasePath);
+        throw new \Exception("No reports for authorization ".$authorizationUuid." at ".$authorizationReportsBasePath);
     }
 
     $reportsCreated = [];
@@ -116,7 +116,7 @@ function post_reports($authorizationUuid, $productUuid, $authorizationReportsBas
     else
     {
         $authorizationReportFiles = scandir($authorizationReportsBasePath);
-        $logger->info("Uploading ".(count($authorizationReportFiles) - 2)." report files for authorization...".$authorizationUuid);
+        $logger->info("Uploading ".(count($authorizationReportFiles) - 2)." report files for authorization ".$authorizationUuid);
 
         foreach($authorizationReportFiles as $reportFilename)
         {

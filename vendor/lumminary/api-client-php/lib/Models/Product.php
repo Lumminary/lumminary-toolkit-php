@@ -58,6 +58,7 @@ class Product implements ModelInterface, ArrayAccess
       */
     protected static $swaggerTypes = [
         'snpsAuthorizedAny' => 'bool',
+        'productPartners' => 'string[]',
         'snpsAuthorized' => 'string[]',
         'authorizedScopes' => 'string[]',
         'email' => 'string',
@@ -74,6 +75,7 @@ class Product implements ModelInterface, ArrayAccess
       */
     protected static $swaggerFormats = [
         'snpsAuthorizedAny' => null,
+        'productPartners' => null,
         'snpsAuthorized' => null,
         'authorizedScopes' => null,
         'email' => null,
@@ -111,6 +113,7 @@ class Product implements ModelInterface, ArrayAccess
      */
     protected static $attributeMap = [
         'snpsAuthorizedAny' => 'snps_authorized_any',
+        'productPartners' => 'product_partners',
         'snpsAuthorized' => 'snps_authorized',
         'authorizedScopes' => 'authorized_scopes',
         'email' => 'email',
@@ -127,6 +130,7 @@ class Product implements ModelInterface, ArrayAccess
      */
     protected static $setters = [
         'snpsAuthorizedAny' => 'setSnpsAuthorizedAny',
+        'productPartners' => 'setProductPartners',
         'snpsAuthorized' => 'setSnpsAuthorized',
         'authorizedScopes' => 'setAuthorizedScopes',
         'email' => 'setEmail',
@@ -143,6 +147,7 @@ class Product implements ModelInterface, ArrayAccess
      */
     protected static $getters = [
         'snpsAuthorizedAny' => 'getSnpsAuthorizedAny',
+        'productPartners' => 'getProductPartners',
         'snpsAuthorized' => 'getSnpsAuthorized',
         'authorizedScopes' => 'getAuthorizedScopes',
         'email' => 'getEmail',
@@ -213,6 +218,7 @@ class Product implements ModelInterface, ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['snpsAuthorizedAny'] = isset($data['snpsAuthorizedAny']) ? $data['snpsAuthorizedAny'] : null;
+        $this->container['productPartners'] = isset($data['productPartners']) ? $data['productPartners'] : null;
         $this->container['snpsAuthorized'] = isset($data['snpsAuthorized']) ? $data['snpsAuthorized'] : null;
         $this->container['authorizedScopes'] = isset($data['authorizedScopes']) ? $data['authorizedScopes'] : null;
         $this->container['email'] = isset($data['email']) ? $data['email'] : null;
@@ -233,6 +239,9 @@ class Product implements ModelInterface, ArrayAccess
 
         if ($this->container['snpsAuthorizedAny'] === null) {
             $invalidProperties[] = "'snpsAuthorizedAny' can't be null";
+        }
+        if ($this->container['productPartners'] === null) {
+            $invalidProperties[] = "'productPartners' can't be null";
         }
         if ($this->container['snpsAuthorized'] === null) {
             $invalidProperties[] = "'snpsAuthorized' can't be null";
@@ -262,6 +271,9 @@ class Product implements ModelInterface, ArrayAccess
     {
 
         if ($this->container['snpsAuthorizedAny'] === null) {
+            return false;
+        }
+        if ($this->container['productPartners'] === null) {
             return false;
         }
         if ($this->container['snpsAuthorized'] === null) {
@@ -303,6 +315,30 @@ class Product implements ModelInterface, ArrayAccess
     public function setSnpsAuthorizedAny($snpsAuthorizedAny)
     {
         $this->container['snpsAuthorizedAny'] = $snpsAuthorizedAny;
+
+        return $this;
+    }
+
+    /**
+     * Gets productPartners
+     *
+     * @return string[]
+     */
+    public function getProductPartners()
+    {
+        return $this->container['productPartners'];
+    }
+
+    /**
+     * Sets productPartners
+     *
+     * @param string[] $productPartners A list of Partner UUIDs that manage the product
+     *
+     * @return $this
+     */
+    public function setProductPartners($productPartners)
+    {
+        $this->container['productPartners'] = $productPartners;
 
         return $this;
     }

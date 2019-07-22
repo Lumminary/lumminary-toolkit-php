@@ -3324,15 +3324,16 @@ class LumminaryAPISpecApi
      * @param  string $credentialsUsername Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $credentialsPassword Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $reportUrl Credentials for accessing the result. Includes password, username and url (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Lumminary\Client\Models\ReportCredentials
      */
-    public function postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $xFields = null)
+    public function postAuthorizationResultCredentials($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $notifyClient = 'true', $xFields = null)
     {
-        list($response) = $this->postAuthorizationResultCredentialsWithHttpInfo($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields);
+        list($response) = $this->postAuthorizationResultCredentialsWithHttpInfo($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $notifyClient, $xFields);
         return $response;
     }
 
@@ -3346,16 +3347,17 @@ class LumminaryAPISpecApi
      * @param  string $credentialsUsername Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $credentialsPassword Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $reportUrl Credentials for accessing the result. Includes password, username and url (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Lumminary\Client\Models\ReportCredentials, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postAuthorizationResultCredentialsWithHttpInfo($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $xFields = null)
+    public function postAuthorizationResultCredentialsWithHttpInfo($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $notifyClient = 'true', $xFields = null)
     {
         $returnType = '\Lumminary\Client\Models\ReportCredentials';
-        $request = $this->postAuthorizationResultCredentialsRequest($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields);
+        $request = $this->postAuthorizationResultCredentialsRequest($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $notifyClient, $xFields);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3426,14 +3428,15 @@ class LumminaryAPISpecApi
      * @param  string $credentialsUsername Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $credentialsPassword Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $reportUrl Credentials for accessing the result. Includes password, username and url (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postAuthorizationResultCredentialsAsync($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $xFields = null)
+    public function postAuthorizationResultCredentialsAsync($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $notifyClient = 'true', $xFields = null)
     {
-        return $this->postAuthorizationResultCredentialsAsyncWithHttpInfo($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields)
+        return $this->postAuthorizationResultCredentialsAsyncWithHttpInfo($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $notifyClient, $xFields)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3451,15 +3454,16 @@ class LumminaryAPISpecApi
      * @param  string $credentialsUsername Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $credentialsPassword Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $reportUrl Credentials for accessing the result. Includes password, username and url (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postAuthorizationResultCredentialsAsyncWithHttpInfo($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $xFields = null)
+    public function postAuthorizationResultCredentialsAsyncWithHttpInfo($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $notifyClient = 'true', $xFields = null)
     {
         $returnType = '\Lumminary\Client\Models\ReportCredentials';
-        $request = $this->postAuthorizationResultCredentialsRequest($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $xFields);
+        $request = $this->postAuthorizationResultCredentialsRequest($productId, $authorizationId, $credentialsUsername, $credentialsPassword, $reportUrl, $notifyClient, $xFields);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3506,12 +3510,13 @@ class LumminaryAPISpecApi
      * @param  string $credentialsUsername Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $credentialsPassword Credentials for accessing the result. Includes password, username and url (optional)
      * @param  string $reportUrl Credentials for accessing the result. Includes password, username and url (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function postAuthorizationResultCredentialsRequest($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $xFields = null)
+    protected function postAuthorizationResultCredentialsRequest($productId, $authorizationId, $credentialsUsername = null, $credentialsPassword = null, $reportUrl = null, $notifyClient = 'true', $xFields = null)
     {
         // verify the required parameter 'productId' is set
         if ($productId === null) {
@@ -3533,6 +3538,10 @@ class LumminaryAPISpecApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($notifyClient !== null) {
+            $queryParams['notify_client'] = ObjectSerializer::toQueryValue($notifyClient);
+        }
         // header params
         if ($xFields !== null) {
             $headerParams['X-Fields'] = ObjectSerializer::toHeaderValue($xFields);
@@ -3645,15 +3654,16 @@ class LumminaryAPISpecApi
      * @param  string $authorizationId The UUID of the authorization (required)
      * @param  \SplFileObject $fileReport A binary file (e.g. pdf) that contains the result of the authorization (optional)
      * @param  string $originalFilename Optional original filename for the report. If not provided, the filename of uploaded file will be used (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Lumminary\Client\Models\ReportFile
      */
-    public function postAuthorizationResultFile($productId, $authorizationId, $fileReport = null, $originalFilename = null, $xFields = null)
+    public function postAuthorizationResultFile($productId, $authorizationId, $fileReport = null, $originalFilename = null, $notifyClient = 'true', $xFields = null)
     {
-        list($response) = $this->postAuthorizationResultFileWithHttpInfo($productId, $authorizationId, $fileReport, $originalFilename, $xFields);
+        list($response) = $this->postAuthorizationResultFileWithHttpInfo($productId, $authorizationId, $fileReport, $originalFilename, $notifyClient, $xFields);
         return $response;
     }
 
@@ -3666,16 +3676,17 @@ class LumminaryAPISpecApi
      * @param  string $authorizationId The UUID of the authorization (required)
      * @param  \SplFileObject $fileReport A binary file (e.g. pdf) that contains the result of the authorization (optional)
      * @param  string $originalFilename Optional original filename for the report. If not provided, the filename of uploaded file will be used (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Lumminary\Client\Models\ReportFile, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postAuthorizationResultFileWithHttpInfo($productId, $authorizationId, $fileReport = null, $originalFilename = null, $xFields = null)
+    public function postAuthorizationResultFileWithHttpInfo($productId, $authorizationId, $fileReport = null, $originalFilename = null, $notifyClient = 'true', $xFields = null)
     {
         $returnType = '\Lumminary\Client\Models\ReportFile';
-        $request = $this->postAuthorizationResultFileRequest($productId, $authorizationId, $fileReport, $originalFilename, $xFields);
+        $request = $this->postAuthorizationResultFileRequest($productId, $authorizationId, $fileReport, $originalFilename, $notifyClient, $xFields);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3745,14 +3756,15 @@ class LumminaryAPISpecApi
      * @param  string $authorizationId The UUID of the authorization (required)
      * @param  \SplFileObject $fileReport A binary file (e.g. pdf) that contains the result of the authorization (optional)
      * @param  string $originalFilename Optional original filename for the report. If not provided, the filename of uploaded file will be used (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postAuthorizationResultFileAsync($productId, $authorizationId, $fileReport = null, $originalFilename = null, $xFields = null)
+    public function postAuthorizationResultFileAsync($productId, $authorizationId, $fileReport = null, $originalFilename = null, $notifyClient = 'true', $xFields = null)
     {
-        return $this->postAuthorizationResultFileAsyncWithHttpInfo($productId, $authorizationId, $fileReport, $originalFilename, $xFields)
+        return $this->postAuthorizationResultFileAsyncWithHttpInfo($productId, $authorizationId, $fileReport, $originalFilename, $notifyClient, $xFields)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3769,15 +3781,16 @@ class LumminaryAPISpecApi
      * @param  string $authorizationId The UUID of the authorization (required)
      * @param  \SplFileObject $fileReport A binary file (e.g. pdf) that contains the result of the authorization (optional)
      * @param  string $originalFilename Optional original filename for the report. If not provided, the filename of uploaded file will be used (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postAuthorizationResultFileAsyncWithHttpInfo($productId, $authorizationId, $fileReport = null, $originalFilename = null, $xFields = null)
+    public function postAuthorizationResultFileAsyncWithHttpInfo($productId, $authorizationId, $fileReport = null, $originalFilename = null, $notifyClient = 'true', $xFields = null)
     {
         $returnType = '\Lumminary\Client\Models\ReportFile';
-        $request = $this->postAuthorizationResultFileRequest($productId, $authorizationId, $fileReport, $originalFilename, $xFields);
+        $request = $this->postAuthorizationResultFileRequest($productId, $authorizationId, $fileReport, $originalFilename, $notifyClient, $xFields);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3823,12 +3836,13 @@ class LumminaryAPISpecApi
      * @param  string $authorizationId The UUID of the authorization (required)
      * @param  \SplFileObject $fileReport A binary file (e.g. pdf) that contains the result of the authorization (optional)
      * @param  string $originalFilename Optional original filename for the report. If not provided, the filename of uploaded file will be used (optional)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      * @param  string $xFields An optional fields mask (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function postAuthorizationResultFileRequest($productId, $authorizationId, $fileReport = null, $originalFilename = null, $xFields = null)
+    protected function postAuthorizationResultFileRequest($productId, $authorizationId, $fileReport = null, $originalFilename = null, $notifyClient = 'true', $xFields = null)
     {
         // verify the required parameter 'productId' is set
         if ($productId === null) {
@@ -3853,6 +3867,10 @@ class LumminaryAPISpecApi
         // query params
         if ($originalFilename !== null) {
             $queryParams['original_filename'] = ObjectSerializer::toQueryValue($originalFilename);
+        }
+        // query params
+        if ($notifyClient !== null) {
+            $queryParams['notify_client'] = ObjectSerializer::toQueryValue($notifyClient);
         }
         // header params
         if ($xFields !== null) {
@@ -4564,14 +4582,15 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function postProductAuthorization($productId, $authorizationId)
+    public function postProductAuthorization($productId, $authorizationId, $notifyClient = 'true')
     {
-        $this->postProductAuthorizationWithHttpInfo($productId, $authorizationId);
+        $this->postProductAuthorizationWithHttpInfo($productId, $authorizationId, $notifyClient);
     }
 
     /**
@@ -4581,15 +4600,16 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postProductAuthorizationWithHttpInfo($productId, $authorizationId)
+    public function postProductAuthorizationWithHttpInfo($productId, $authorizationId, $notifyClient = 'true')
     {
         $returnType = '';
-        $request = $this->postProductAuthorizationRequest($productId, $authorizationId);
+        $request = $this->postProductAuthorizationRequest($productId, $authorizationId, $notifyClient);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4635,13 +4655,14 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postProductAuthorizationAsync($productId, $authorizationId)
+    public function postProductAuthorizationAsync($productId, $authorizationId, $notifyClient = 'true')
     {
-        return $this->postProductAuthorizationAsyncWithHttpInfo($productId, $authorizationId)
+        return $this->postProductAuthorizationAsyncWithHttpInfo($productId, $authorizationId, $notifyClient)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4656,14 +4677,15 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postProductAuthorizationAsyncWithHttpInfo($productId, $authorizationId)
+    public function postProductAuthorizationAsyncWithHttpInfo($productId, $authorizationId, $notifyClient = 'true')
     {
         $returnType = '';
-        $request = $this->postProductAuthorizationRequest($productId, $authorizationId);
+        $request = $this->postProductAuthorizationRequest($productId, $authorizationId, $notifyClient);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4693,11 +4715,12 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function postProductAuthorizationRequest($productId, $authorizationId)
+    protected function postProductAuthorizationRequest($productId, $authorizationId, $notifyClient = 'true')
     {
         // verify the required parameter 'productId' is set
         if ($productId === null) {
@@ -4719,6 +4742,10 @@ class LumminaryAPISpecApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($notifyClient !== null) {
+            $queryParams['notify_client'] = ObjectSerializer::toQueryValue($notifyClient);
+        }
 
         // path params
         if ($productId !== null) {
@@ -4813,14 +4840,15 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function postProductAuthorizationUnfulfillable($productId, $authorizationId)
+    public function postProductAuthorizationUnfulfillable($productId, $authorizationId, $notifyClient = 'true')
     {
-        $this->postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId);
+        $this->postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId, $notifyClient);
     }
 
     /**
@@ -4830,15 +4858,16 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \Lumminary\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId)
+    public function postProductAuthorizationUnfulfillableWithHttpInfo($productId, $authorizationId, $notifyClient = 'true')
     {
         $returnType = '';
-        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId);
+        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId, $notifyClient);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4884,13 +4913,14 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postProductAuthorizationUnfulfillableAsync($productId, $authorizationId)
+    public function postProductAuthorizationUnfulfillableAsync($productId, $authorizationId, $notifyClient = 'true')
     {
-        return $this->postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId)
+        return $this->postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId, $notifyClient)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4905,14 +4935,15 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId)
+    public function postProductAuthorizationUnfulfillableAsyncWithHttpInfo($productId, $authorizationId, $notifyClient = 'true')
     {
         $returnType = '';
-        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId);
+        $request = $this->postProductAuthorizationUnfulfillableRequest($productId, $authorizationId, $notifyClient);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4942,11 +4973,12 @@ class LumminaryAPISpecApi
      *
      * @param  string $productId The UUID of the product (required)
      * @param  string $authorizationId The UUID of the authorization (required)
+     * @param  bool $notifyClient Optional flag to trigger a mail being sent to the client, to notify them of the report being available (optional, default to true)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function postProductAuthorizationUnfulfillableRequest($productId, $authorizationId)
+    protected function postProductAuthorizationUnfulfillableRequest($productId, $authorizationId, $notifyClient = 'true')
     {
         // verify the required parameter 'productId' is set
         if ($productId === null) {
@@ -4968,6 +5000,10 @@ class LumminaryAPISpecApi
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($notifyClient !== null) {
+            $queryParams['notify_client'] = ObjectSerializer::toQueryValue($notifyClient);
+        }
 
         // path params
         if ($productId !== null) {

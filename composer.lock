@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
+    "content-hash": "003b35f5e6cbbab2ebc23483385adfad",
+=======
     "content-hash": "168d7916ed65495c7ad62cc28dfbc3c1",
+>>>>>>> abc2c4543e1f4c7afe50422f6d5e18cc0feaaae9
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -353,11 +357,19 @@
         },
         {
             "name": "lumminary/api-client-php",
+<<<<<<< HEAD
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Lumminary/lumminary-api-client-php.git",
+                "reference": "61a46db797b473a0a7fdcf7f698901fbe759c66c"
+=======
             "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lumminary/lumminary-api-client-php.git",
                 "reference": "5388e299cbb1bc6385192b685951f19ea903bb3b"
+>>>>>>> abc2c4543e1f4c7afe50422f6d5e18cc0feaaae9
             },
             "require": {
                 "ext-curl": "*",
@@ -398,7 +410,11 @@
                 "sdk",
                 "swagger"
             ],
+<<<<<<< HEAD
+            "time": "2019-07-22T13:25:03+00:00"
+=======
             "time": "2019-06-19T15:43:10+00:00"
+>>>>>>> abc2c4543e1f4c7afe50422f6d5e18cc0feaaae9
         },
         {
             "name": "monolog/monolog",

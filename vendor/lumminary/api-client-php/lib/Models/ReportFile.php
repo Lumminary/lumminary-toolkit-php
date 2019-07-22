@@ -57,7 +57,7 @@ class ReportFile implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'fileLocation' => '\Lumminary\Client\Models\FileLocation',
+        'fileLocation' => 'string',
         'authorizationUuid' => 'string',
         'createTimestamp' => 'int',
         'reportFileUuid' => 'string'
@@ -250,7 +250,7 @@ class ReportFile implements ModelInterface, ArrayAccess
     /**
      * Gets fileLocation
      *
-     * @return \Lumminary\Client\Models\FileLocation
+     * @return string
      */
     public function getFileLocation()
     {
@@ -260,7 +260,7 @@ class ReportFile implements ModelInterface, ArrayAccess
     /**
      * Sets fileLocation
      *
-     * @param \Lumminary\Client\Models\FileLocation $fileLocation fileLocation
+     * @param string $fileLocation The UUID of the DownloadFile object corresponding to the report
      *
      * @return $this
      */
